@@ -5,8 +5,29 @@ import Divider from '@mui/material/Divider';
 import HomeInfo from './HomeInfo';
 import SongsDetails from './SongsDetails';
 import InnerNav from './InnerNav/InnerNav';
-
+import { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 function HomePage() {
+
+    useEffect(() => {
+        const token = window.localStorage.getItem('token');
+        if(!token) Navigate('/login');
+        const options = {
+            url: 'http://localhost:2000/auth',
+            method: 'POST',
+            headers: {
+              'Accept': 'application/json',
+              'Content-Type': 'application/json;charset=UTF-8'
+            },
+            data: {token}
+          };
+        axios(options).then(async(res) => {
+            console.log({response: res});
+        });
+    }, [])
+    
+    const Navigate = useNavigate();
 
     const locale = 'en';
     const today = new Date();
